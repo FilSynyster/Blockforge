@@ -1,4 +1,4 @@
-package agenda.database.manager;
+package agenda.database.core;
 
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
@@ -37,17 +37,22 @@ public class ClassScanner {
         return ret;
     }
 
-    public List<Class<?>> findSubclasses(Class<?> clazz) {
+    public List<Class<?>> findSubInterfaces(Class<?> clazz) {
+
         List<Class<?>> ret = new ArrayList<>();
-        try (ScanResult result = new ClassGraph()
-                .acceptPackages(packageName)
-                .scan()
-        ) {
-            ClassInfoList subclasses = result.getSubclasses(clazz.getName());
-            for (ClassInfo info : subclasses) {
-                ret.add(info.loadClass());
+
+        try (ScanResult result = new ClassGraph().acceptPackages(packageName).enableClassInfo().scan()) {
+
+            ClassInfoList interfaces = result.getAllInterfaces();
+
+            for (ClassInfo info : interfaces) {
+
+                if (info.implementsInterface(clazz.getName())) {
+                    ret.add(info.loadClass());
+                }
             }
         }
+
         return ret;
     }
 

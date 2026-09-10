@@ -1,12 +1,14 @@
-package agenda.database.annotation;
+package agenda.database.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.METHOD)
+/**
+ * Marca um campo em uma classe que deve ser injetado automaticamente pelo Injetor.
+ * */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Query {
-    String value();
+@Target(ElementType.FIELD)
+public @interface AutoInject {
 }

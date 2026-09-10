@@ -1,4 +1,4 @@
-package agenda.database;
+package agenda.database.core;
 
 import java.util.List;
 

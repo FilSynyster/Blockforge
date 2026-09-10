@@ -1,9 +1,9 @@
 package agenda.app.view.controller;
 
-import agenda.database.DatabaseHandler;
-import agenda.database.annotation.AutoInject;
+import agenda.app.PersistenceHandler;
 import agenda.app.models.Contact;
 import agenda.app.repositories.ContactRepository;
+import agenda.database.annotations.AutoInject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -12,7 +12,7 @@ public class RegisterController {
 
     //Implementar o injetor
     @AutoInject                                     //Simula a injeção automática
-    private ContactRepository contactRepository = DatabaseHandler.getDatabaseManager().getRepository(Contact.class);
+    private ContactRepository contactRepository = PersistenceHandler.getCurrentPersistenceUnity().getRepository(Contact.class);
 
     @FXML
     private TextField txtNome;
@@ -32,7 +32,7 @@ public class RegisterController {
 
         Contact contact = new Contact(nome, email, telefone);
 
-        //contactRepository.save(contact);
+        contactRepository.create(contact);
 
     }
 

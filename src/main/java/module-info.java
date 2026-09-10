@@ -18,4 +18,5 @@ module agenda {
 
     exports agenda.database;
     exports agenda.app;
+    exports agenda.database.core;
 }

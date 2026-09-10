@@ -1,6 +1,6 @@
-package agenda.database.manager;
+package agenda.database.providers;
 
-import agenda.database.JdbcRepository;
+import agenda.database.core.JdbcRepository;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;

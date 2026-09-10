@@ -1,7 +1,7 @@
 package agenda.app.view.controller;
 
-import agenda.database.DatabaseHandler;
-import agenda.database.annotation.AutoInject;
+import agenda.app.PersistenceHandler;
+import agenda.database.annotations.AutoInject;
 import agenda.app.models.Contact;
 import agenda.app.repositories.ContactRepository;
 import agenda.app.view.ContactCell;
@@ -21,7 +21,7 @@ public class MainController {
 
     //Implementar injetor
     @AutoInject                             //Simula a injeção automática
-    private ContactRepository repository = DatabaseHandler.getDatabaseManager().getRepository(Contact.class);
+    private ContactRepository repository = PersistenceHandler.getCurrentPersistenceUnity().getRepository(Contact.class);
 
     @FXML
     private ListView<Contact> listaContatos;

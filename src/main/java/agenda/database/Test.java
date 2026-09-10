@@ -1,21 +1,31 @@
 package agenda.database;
 
 import agenda.app.models.Contact;
-import agenda.database.manager.DatabaseManager;
+import agenda.app.repositories.ContactRepository;
+import agenda.database.core.PersistenceUnit;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class Test {
 
     public static void main(String[] args) {
 
-        String url = "jdbc:sqlite:database/base.db";
+        Properties prop = new Properties();
 
-        DatabaseManager manager = new DatabaseManager("agenda", url);
-        manager.createTablesIfNotExists();
-        manager.findCreateAndRegisterRepositories();
+        try (InputStream in = Test.class.getClassLoader().getResourceAsStream("config.properties")) {
+            prop.load(in);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        PersistenceContext persist = new PersistenceContext("agenda");
+        PersistenceUnit unit = persist.createNewPersistenceUnit(prop);
+        unit.createTablesIfNotExists();
+        unit.findCreateAndRegisterRepositories();
 
-        ContactRepository contactRepository = manager.getRepository(Contact.class);
-
-        System.out.println(contactRepository.findById(1L));
+        ContactRepository contactRepository = unit.getRepository(Contact.class);
+        contactRepository.findAll().forEach(System.out::println);
     }
 
 }

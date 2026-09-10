@@ -1,7 +1,6 @@
-package agenda.database.manager;
+package agenda.database.core;
 
-import agenda.database.JdbcRepository;
-import agenda.database.JdbcRepositoryInvocationHandler;
+import agenda.database.providers.SqliteRepositoryImpl;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.DatabaseTable;
@@ -15,13 +14,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DatabaseManager {
+public class PersistenceUnit {
 
     private ConnectionSource connectionSource;
     private ClassScanner scanner;
     private Map<Class<?>, JdbcRepository> repositoryRegistry = new HashMap<>();
 
-    public DatabaseManager(String packageName, String url) {
+    public PersistenceUnit(String packageName, String url) {
         scanner = new ClassScanner(packageName);
         try {
             connectionSource = new JdbcConnectionSource(url);
@@ -55,6 +54,11 @@ public class DatabaseManager {
         }
     }
 
+    //Método auxiliar para criar um JdbcRepository
+    private <T,ID> JdbcRepository<T,ID> createRepositoryHandler(Class<T> entityClass) {
+        return new SqliteRepositoryImpl<>(connectionSource, entityClass);
+    }
+
     /**
      * Implementa usando Proxy subinterfaces de JdbcRepository,
      * recupera seu primeiro parâmetro genérico que é a entidade do repositório
@@ -66,19 +70,20 @@ public class DatabaseManager {
         //Recupera o tipo do primeiro parâmetro genérico que é a entidade
         ParameterizedType type = (ParameterizedType) repositoryClass.getGenericInterfaces()[0];
         Type[] argTypes = type.getActualTypeArguments();
-        Class<?> entity = (Class<?>) argTypes[0];
+        Class<?> entityClass = (Class<?>) argTypes[0];
 
         //Cria a implementação dinâmica de JdbcRepository
         ClassLoader classLoader = repositoryClass.getClassLoader();
         Class<?>[] interfaces = { repositoryClass };
-        JdbcRepository<?,?> rep =  new SqliteRepositoryImpl(connectionSource, entity);
+        JdbcRepository<?,?> rep =  createRepositoryHandler(entityClass);
+
         JdbcRepository<?,?> repositoryImpl = (JdbcRepository<?,?>) Proxy.newProxyInstance(
                 classLoader,
                 interfaces,
-                new JdbcRepositoryInvocationHandler<>(rep)
+                new JdbcRepositoryInvocationHandler(rep)
         );
 
-        repositoryRegistry.put(entity, repositoryImpl);
+        repositoryRegistry.put(entityClass, repositoryImpl);
     }
 
     /**
@@ -94,14 +99,14 @@ public class DatabaseManager {
      * <br>
      * */
     public void findCreateAndRegisterRepositories() {
-        List<Class<?>> classes = scanner.findSubclasses(JdbcRepository.class);
+        List<Class<?>> classes = scanner.findSubInterfaces(JdbcRepository.class);
         for (Class<?> repositoryClass : classes ) {
             createAndRegisteRepository((Class<? extends JdbcRepository<?, ?>>) repositoryClass);
         }
     }
 
-    public <T> T getRepository(Class<?> entityClass) {
-        return (T) repositoryRegistry.get(entityClass);
+    public <R extends JdbcRepository<?, ?>> R getRepository(Class<?> entityClass) {
+        return (R) repositoryRegistry.get(entityClass);
     }
 
     public void closeConnection() {
