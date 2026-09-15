@@ -26,7 +26,7 @@ public class OrmlitePersistenceContext implements PersistenceContext {
         List<Class<?>> interfaces = scanner.findSubInterfaces(DataRepository.class);
         for (Class<?> repInterface : interfaces ) {
             Class<?> entityClass = RepositoryHandler.getParamClass(repInterface);
-            DataRepository ormliteRep = ormLiteConfigHandler.createOrmliteRepository(entityClass);
+            DataRepository<?,?> ormliteRep = ormLiteConfigHandler.createOrmliteRepository(entityClass);
             DataRepository<?,?> repository = RepositoryHandler.createRepository(repInterface, ormliteRep);
             repositoryRegistry.registerRepository(entityClass, repository);
         }
