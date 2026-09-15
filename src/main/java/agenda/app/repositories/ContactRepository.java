@@ -1,8 +1,8 @@
 package agenda.app.repositories;
 
-import agenda.database.core.JdbcRepository;
+import agenda.database.core.DataRepository;
 import agenda.app.models.Contact;
 
-public interface ContactRepository extends JdbcRepository<Contact, Long> {
+public interface ContactRepository extends DataRepository<Contact, Long> {
 
 }

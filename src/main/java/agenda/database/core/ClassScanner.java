@@ -11,19 +11,15 @@ import java.util.List;
 
 public class ClassScanner {
 
-    private String packageName;
-
-    public ClassScanner(String packageName) {
-        this.packageName = packageName;
-    }
+    private String rootPackage;
+    private String entityPackage;
 
     public List<Class<?>> findClassesWithAnnotation(Class<? extends Annotation> annotation) {
 
         List<Class<?>> ret = new ArrayList<>();
-
         try (ScanResult scanResult = new ClassGraph()
                 .enableAnnotationInfo()
-                .acceptPackages(packageName)
+                .acceptPackages(entityPackage)
                 .scan()
         ) {
 
@@ -41,7 +37,7 @@ public class ClassScanner {
 
         List<Class<?>> ret = new ArrayList<>();
 
-        try (ScanResult result = new ClassGraph().acceptPackages(packageName).enableClassInfo().scan()) {
+        try (ScanResult result = new ClassGraph().acceptPackages(rootPackage).enableClassInfo().scan()) {
 
             ClassInfoList interfaces = result.getAllInterfaces();
 
@@ -57,4 +53,11 @@ public class ClassScanner {
     }
 
 
+    public void setEntityPackage(String entityPackage) {
+        this.entityPackage = entityPackage;
+    }
+
+    public void setRootPackage(String rootPackage) {
+        this.rootPackage = rootPackage;
+    }
 }

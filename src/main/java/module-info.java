@@ -16,7 +16,7 @@ module agenda {
     opens agenda.app.models to ormlite.jdbc;
     opens agenda.app.view.controller to javafx.fxml;
 
-    exports agenda.database;
     exports agenda.app;
     exports agenda.database.core;
+    exports agenda.database.ormlite;
 }

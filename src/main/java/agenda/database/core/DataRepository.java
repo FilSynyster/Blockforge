@@ -2,7 +2,7 @@ package agenda.database.core;
 
 import java.util.List;
 
-public interface JdbcRepository<T, ID> {
+public interface DataRepository<T, ID> {
 
     public List<T> findAll();
 

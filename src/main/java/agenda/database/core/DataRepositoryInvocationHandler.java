@@ -6,12 +6,12 @@ import agenda.database.annotations.Query;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-public class JdbcRepositoryInvocationHandler implements InvocationHandler {
+public class DataRepositoryInvocationHandler implements InvocationHandler {
 
     //implementação real
-    private JdbcRepository<?,?> jdbcRepositoryImpl;
+    private DataRepository<?,?> jdbcRepositoryImpl;
 
-    public JdbcRepositoryInvocationHandler(JdbcRepository<?,?> jdbcRepositoryImpl) {
+    public DataRepositoryInvocationHandler(DataRepository<?,?> jdbcRepositoryImpl) {
         this.jdbcRepositoryImpl = jdbcRepositoryImpl;
     }
 

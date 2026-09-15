@@ -1,6 +1,6 @@
-package agenda.database.providers;
+package agenda.database.ormlite;
 
-import agenda.database.core.JdbcRepository;
+import agenda.database.core.DataRepository;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
@@ -8,11 +8,11 @@ import com.j256.ormlite.support.ConnectionSource;
 import java.sql.SQLException;
 import java.util.List;
 
-public class SqliteRepositoryImpl<T, ID> implements JdbcRepository<T, ID> {
+public class OrmliteRepository<T, ID> implements DataRepository<T, ID> {
 
     private Dao<T, ID> dao;
 
-    public SqliteRepositoryImpl(ConnectionSource connectionSource, Class<?> clazz) {
+    public OrmliteRepository(ConnectionSource connectionSource, Class<?> clazz) {
         try {
             dao = DaoManager.createDao(connectionSource, (Class<T>)clazz);
         } catch (SQLException e) {

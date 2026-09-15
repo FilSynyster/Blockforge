@@ -12,7 +12,7 @@ public class RegisterController {
 
     //Implementar o injetor
     @AutoInject                                     //Simula a injeção automática
-    private ContactRepository contactRepository = PersistenceHandler.getCurrentPersistenceUnity().getRepository(Contact.class);
+    private ContactRepository contactRepository = PersistenceHandler.getRepository(Contact.class);
 
     @FXML
     private TextField txtNome;

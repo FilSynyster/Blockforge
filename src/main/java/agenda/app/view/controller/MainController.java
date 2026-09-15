@@ -21,7 +21,7 @@ public class MainController {
 
     //Implementar injetor
     @AutoInject                             //Simula a injeção automática
-    private ContactRepository repository = PersistenceHandler.getCurrentPersistenceUnity().getRepository(Contact.class);
+    private ContactRepository repository = PersistenceHandler.getRepository(Contact.class);
 
     @FXML
     private ListView<Contact> listaContatos;

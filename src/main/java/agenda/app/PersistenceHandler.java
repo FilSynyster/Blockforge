@@ -1,37 +1,26 @@
 package agenda.app;
 
-import agenda.database.PersistenceContext;
-import agenda.database.core.PersistenceUnit;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import agenda.database.core.DataRepository;
+import agenda.database.core.PersistenceContextFactory;
+import agenda.database.ormlite.OrmlitePersistenceContext;
 
 public final class PersistenceHandler {
+
+
 
     private PersistenceHandler() {
     }
 
-    private static final PersistenceUnit UNITY;
+    private static final OrmlitePersistenceContext CONTEXT;
 
     static {
-        PersistenceContext persist = new PersistenceContext("agenda");
-
-        Properties properties = new Properties();
-
-        try (InputStream input = PersistenceHandler.class.getClassLoader().getResourceAsStream("config.properties")) {
-            properties.load(input);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        UNITY = persist.createNewPersistenceUnit(properties);
-        UNITY.createTablesIfNotExists();
-        UNITY.findCreateAndRegisterRepositories();
+        PersistenceContextFactory persist = new PersistenceContextFactory();
+        CONTEXT = (OrmlitePersistenceContext) persist.createPersistenceContext("agenda-persistence");
+        CONTEXT.findCreateAndRegisterRepositories();
     }
 
-    public static PersistenceUnit getCurrentPersistenceUnity() {
-        return UNITY;
+    public static <R extends DataRepository<?,?>> R getRepository(Class<?> entity) {
+        return CONTEXT.getRepositoryRegistry().getRepository(entity);
     }
 
 }
