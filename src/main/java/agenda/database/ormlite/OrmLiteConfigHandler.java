@@ -1,8 +1,6 @@
 package agenda.database.ormlite;
 
-import agenda.database.ormlite.configuration.ConfigFileProperties;
 import agenda.database.core.ClassScanner;
-import agenda.database.ormlite.configuration.ContextConfig;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.DatabaseTable;

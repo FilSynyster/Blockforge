@@ -15,8 +15,8 @@ public final class PersistenceHandler {
 
     static {
         PersistenceContextFactory persist = new PersistenceContextFactory();
-        CONTEXT = (OrmlitePersistenceContext) persist.createPersistenceContext("agenda-persistence");
-        CONTEXT.findCreateAndRegisterRepositories();
+        CONTEXT = (OrmlitePersistenceContext) persist.createOrmlitePersistenceContext("agenda-persistence");
+        CONTEXT.initialize();
     }
 
     public static <R extends DataRepository<?,?>> R getRepository(Class<?> entity) {

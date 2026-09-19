@@ -1,5 +1,6 @@
 package agenda.database.core;
 
+import agenda.database.ormlite.configuration.Context;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
@@ -13,6 +14,15 @@ public class ClassScanner {
 
     private String rootPackage;
     private String entityPackage;
+
+    public ClassScanner(Context config) {
+        this.rootPackage = config.getContextConfig().getRootPackage();
+        if (config.getEntityConfig().isClassesEmpty()) {
+            this.entityPackage = rootPackage;
+        } else {
+            this.entityPackage = config.getEntityConfig().getEntityClasses()[0].getValue();
+        }
+    }
 
     public List<Class<?>> findClassesWithAnnotation(Class<? extends Annotation> annotation) {
 
@@ -52,12 +62,4 @@ public class ClassScanner {
         return ret;
     }
 
-
-    public void setEntityPackage(String entityPackage) {
-        this.entityPackage = entityPackage;
-    }
-
-    public void setRootPackage(String rootPackage) {
-        this.rootPackage = rootPackage;
-    }
 }

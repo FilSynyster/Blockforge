@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MainController {
 
-    //Implementar injetor
+    //Implementar injetor no core
     @AutoInject                             //Simula a injeção automática
     private ContactRepository repository = PersistenceHandler.getRepository(Contact.class);
 

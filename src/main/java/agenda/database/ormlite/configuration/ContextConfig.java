@@ -1,53 +1,115 @@
 package agenda.database.ormlite.configuration;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
+/**
+ * Representa as configurações de infraestrutura de um contexto
+ * de persistência.
+ *
+ * <p>Esta classe corresponde ao elemento
+ * {@code <context-config>} do XML.</p>
+ *
+ * <p>São armazenadas configurações relacionadas ao banco de dados,
+ * esquema, escaneamento da aplicação e pool de conexões.</p>
+ */
 public class ContextConfig {
 
-    private final String unitName;
+    private final String url;
+    private final String databaseProvider;
+    private final String ddlAuto;
+    private final String rootPackage;
+    private final int poolSize;
+    private final long connectionTimeout;
 
-    private final Map<String, String> properties = new LinkedHashMap<>();
-
-    public ContextConfig(String unitName) {
-        this.unitName = unitName;
+    /**
+     * Cria uma configuração de contexto.
+     *
+     * @param url URL JDBC do banco de dados
+     * @param databaseProvider provedor do banco de dados
+     * @param ddlAuto estratégia de inicialização do esquema
+     * @param rootPackage pacote raiz da aplicação
+     * @param poolSize quantidade de conexões do pool
+     * @param connectionTimeout tempo máximo de espera por conexão
+     */
+    public ContextConfig(
+            String url,
+            String databaseProvider,
+            String ddlAuto,
+            String rootPackage,
+            int poolSize,
+            long connectionTimeout
+    ) {
+        this.url = url;
+        this.databaseProvider = databaseProvider;
+        this.ddlAuto = ddlAuto;
+        this.rootPackage = rootPackage;
+        this.poolSize = poolSize;
+        this.connectionTimeout = connectionTimeout;
     }
 
-    public String getUnitName() {
-        return unitName;
+    /**
+     * Retorna a URL JDBC do banco.
+     *
+     * @return URL do banco
+     */
+    public String getUrl() {
+        return url;
     }
 
-    public String get(String name) {
-        return properties.get(name);
+    /**
+     * Retorna o provedor do banco de dados.
+     *
+     * @return provedor configurado
+     */
+    public String getDatabaseProvider() {
+        return databaseProvider;
     }
 
-    public void put(String name, String value) {
-        properties.put(name, value);
+    /**
+     * Retorna a estratégia de inicialização do esquema.
+     *
+     * @return estratégia DDL
+     */
+    public String getDdlAuto() {
+        return ddlAuto;
     }
 
-    public Map<String, String> getProperties() {
-        return properties;
+    /**
+     * Retorna o pacote raiz da aplicação.
+     *
+     * @return pacote raiz
+     */
+    public String getRootPackage() {
+        return rootPackage;
+    }
+
+    /**
+     * Retorna a quantidade máxima de conexões do pool.
+     *
+     * @return tamanho do pool
+     */
+    public int getPoolSize() {
+        return poolSize;
+    }
+
+    /**
+     * Retorna o tempo máximo de espera por uma conexão.
+     *
+     * <p>O valor é expresso em milissegundos.</p>
+     *
+     * @return timeout em milissegundos
+     */
+    public long getConnectionTimeout() {
+        return connectionTimeout;
     }
 
     @Override
     public String toString() {
-
-        StringBuilder builder = new StringBuilder("ContextConfig:{\n");
-
-        builder.append("  \"unit-name\": \"").append(unitName).append("\"");
-
-        for (Map.Entry<String, String> entry : properties.entrySet()) {
-
-            builder.append(",\n")
-                    .append("  \"")
-                    .append(entry.getKey())
-                    .append("\": \"")
-                    .append(entry.getValue())
-                    .append("\"");
-        }
-
-        builder.append("\n}");
-
-        return builder.toString();
+        return "ContextConfig{" +
+                "url='" + url + '\'' +
+                ", databaseProvider='" + databaseProvider + '\'' +
+                ", ddlAuto='" + ddlAuto + '\'' +
+                ", rootPackage='" + rootPackage + '\'' +
+                ", poolSize=" + poolSize +
+                ", connectionTimeout=" + connectionTimeout +
+                '}';
     }
 }

@@ -15,5 +15,5 @@ public interface PersistenceContext {
      * 3 - Adiciona o repositório em um map com sua entidade sendo seu key.
      * <br>
      * */
-    public void findCreateAndRegisterRepositories();
+    public void initialize();
 }

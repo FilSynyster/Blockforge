@@ -18,6 +18,9 @@ public class Contact {
     @DatabaseField
     private String phone;
 
+    @DatabaseField
+    private int age;
+
     public Contact() {
     }
 
@@ -28,10 +31,11 @@ public class Contact {
         this.phone = phone;
     }
 
-    public Contact(String name, String email, String phone) {
+    public Contact(String name, String email, String phone,  int age) {
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.age = age;
     }
 
     public Long getId() {
@@ -66,6 +70,14 @@ public class Contact {
         this.phone = phone;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     @Override
     public String toString() {
         return "Contact{" +
@@ -73,6 +85,7 @@ public class Contact {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", age=" + age +
                 '}';
     }
 }

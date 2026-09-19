@@ -12,6 +12,7 @@ module agenda {
 
     requires java.sql;
     requires io.github.classgraph;
+    requires jakarta.persistence;
 
     opens agenda.app.models to ormlite.jdbc;
     opens agenda.app.view.controller to javafx.fxml;

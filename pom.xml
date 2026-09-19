@@ -79,11 +79,18 @@
             <version>6.1</version>
         </dependency>
 
-        <!--Escaneador de anotações-->
+        <!--ClassGrap-->
         <dependency>
             <groupId>io.github.classgraph</groupId>
             <artifactId>classgraph</artifactId>
             <version>4.8.179</version>
+        </dependency>
+
+        <!-- JPA EclipseLink -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>4.0.8</version>
         </dependency>
 
     </dependencies>

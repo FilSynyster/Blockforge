@@ -4,7 +4,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 
-public class RepositoryHandler {
+public class RepositoryBuilder {
 
     public static Class<?> getParamClass(Class<?>  repositoryInterface) {
         ParameterizedType type = (ParameterizedType) repositoryInterface.getGenericInterfaces()[0];
@@ -13,17 +13,17 @@ public class RepositoryHandler {
     }
 
     public static DataRepository<?,?> createRepository(
-            Class<?> repositoryInterface,
-            DataRepository<?,?> realRepository
+            Class<?> repositoryInterfaceClass,
+            DataRepository<?,?> dataRepository
     ) {
         //Cria a implementação dinâmica de DataRepository
-        ClassLoader classLoader = repositoryInterface.getClassLoader();
-        Class<?>[] interfaces = { repositoryInterface };
+        ClassLoader classLoader = repositoryInterfaceClass.getClassLoader();
+        Class<?>[] interfaces = { repositoryInterfaceClass };
 
         return (DataRepository<?,?>) Proxy.newProxyInstance(
                 classLoader,
                 interfaces,
-                new DataRepositoryInvocationHandler(realRepository)
+                new DataRepositoryInvocationHandler(dataRepository)
         );
     }
 

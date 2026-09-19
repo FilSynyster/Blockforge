@@ -30,7 +30,7 @@ public class RegisterController {
         String email = txtEmail.getText();
         String telefone = txtTelefone.getText();
 
-        Contact contact = new Contact(nome, email, telefone);
+        Contact contact = new Contact(nome, email, telefone, 0);
 
         contactRepository.create(contact);
 

@@ -1,8 +1,7 @@
 package agenda.database.ormlite;
 
-import agenda.database.ormlite.configuration.ContextConfig;
-import agenda.database.ormlite.configuration.ConfigFileProperties;
 import agenda.database.core.*;
+import agenda.database.ormlite.configuration.Context;
 
 import java.util.List;
 
@@ -12,22 +11,20 @@ public class OrmlitePersistenceContext implements PersistenceContext {
     private RepositoryRegistry repositoryRegistry = new RepositoryRegistry();
     private OrmLiteConfigHandler ormLiteConfigHandler;
 
-    public OrmlitePersistenceContext(ContextConfig config) {
-        scanner = new ClassScanner();
-        scanner.setEntityPackage(config.get(ConfigFileProperties.ENTITY_PACKAGE_PROPERTY));
-        scanner.setRootPackage(config.get(ConfigFileProperties.ROOT_PACKAGE_PROPERTY));
-        ormLiteConfigHandler = new OrmLiteConfigHandler(scanner, config.get(ConfigFileProperties.URL_PROPERTY));
-        findCreateAndRegisterRepositories();
+    public OrmlitePersistenceContext(Context config) {
+        scanner = new ClassScanner(config);
+        ormLiteConfigHandler = new OrmLiteConfigHandler(scanner, config.getContextConfig().getUrl());
+        initialize();
     }
 
 
     @Override
-    public void findCreateAndRegisterRepositories() {
+    public void initialize() {
         List<Class<?>> interfaces = scanner.findSubInterfaces(DataRepository.class);
         for (Class<?> repInterface : interfaces ) {
-            Class<?> entityClass = RepositoryHandler.getParamClass(repInterface);
+            Class<?> entityClass = RepositoryBuilder.getParamClass(repInterface);
             DataRepository<?,?> ormliteRep = ormLiteConfigHandler.createOrmliteRepository(entityClass);
-            DataRepository<?,?> repository = RepositoryHandler.createRepository(repInterface, ormliteRep);
+            DataRepository<?,?> repository = RepositoryBuilder.createRepository(repInterface, ormliteRep);
             repositoryRegistry.registerRepository(entityClass, repository);
         }
     }
