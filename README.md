@@ -59,7 +59,7 @@ Security
 ...
 
  - Plugins de domínio:
- - 
+   
 Plugin: Clientes
 
 Plugin: Produtos
