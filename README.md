@@ -1,32 +1,39 @@
-# BlockForge
+BlockForge
 
-Projeto de estudo e desenvolvimento do BlockForge, um framework Java
-modular criado para aplicações desktop.
+BlockForge é um framework modular para o desenvolvimento de aplicações Java desktop baseadas em plugins.
 
-Este repositório utiliza um aplicativo de agenda de contatos como
-projeto de demonstração e testes do framework.
+A arquitetura do BlockForge é composta por um Core responsável pelo gerenciamento da aplicação e por módulos externos distribuídos como arquivos JAR. Os módulos são carregados e gerenciados pelo Core em tempo de execução, permitindo que funcionalidades sejam adicionadas, removidas ou atualizadas sem a necessidade de recompilar o núcleo da aplicação.
 
-## Tecnologias
+Cada módulo funciona como um subframework especializado em uma determinada área do sistema, como:
 
-- Java 21
-- JavaFX
-- Maven
-- SQLite
-- ORMLite
+Gerenciamento e persistência de dados locais;
 
-## Objetivo
+Segurança;
 
-O projeto serve como laboratório para desenvolvimento e testes das
-funcionalidades do BlockForge, incluindo:
+Conectividade web;
 
-- Injeção de dependências
-- Reflection
-- Repositories
-- PersistenceContext
-- ORM
-- Native Queries
-- Modularização
+Acesso a recursos do sistema;
 
-## Status
+Interface gráfica do usuário (GUI).
 
-Em desenvolvimento.
+Os módulos disponibilizam suas próprias APIs para os desenvolvedores, permitindo que aplicações construídas sobre o BlockForge utilizem suas funcionalidades sem precisar conhecer os detalhes internos de suas implementações.
+
+A comunicação e o fornecimento de dependências entre o Core, os módulos e a aplicação são realizados por meio de Dependency Injection (DI). Dessa forma, o acoplamento entre os componentes é controlado pela composição das dependências, permitindo que implementações sejam substituídas ou evoluídas sem que os consumidores precisem conhecer sua instanciação.
+
+A modularização tem como objetivo facilitar a manutenção, evolução e atualização da aplicação, permitindo que módulos sejam distribuídos e atualizados independentemente do Core. Uma alteração em um módulo não exige necessariamente a recompilação ou redistribuição de toda a aplicação.
+
+Este projeto
+
+Este repositório contém o módulo responsável pelo gerenciamento e manipulação de bancos de dados locais para aplicações baseadas no BlockForge.
+
+Atualmente, o módulo utiliza:
+
+SQLite
+
+ORMLite
+
+A arquitetura do módulo está sendo desenvolvida para permitir o suporte a diferentes frameworks de persistência, inicialmente com ORMLite e, futuramente, EclipseLink.
+
+Status
+
+🚧 Em desenvolvimento
