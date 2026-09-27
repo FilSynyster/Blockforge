@@ -47,15 +47,23 @@ Eles representam as regras de negócio e funcionalidades próprias do sistema qu
 Por exemplo:
 
 Aplicação de gestão
-│
-├── Core
-├── Database
-├── Security
-│
-├── Plugin: Clientes
-├── Plugin: Produtos
-├── Plugin: Vendas
-└── Plugin: Relatórios
+
+Core
+
+ - Módulos nativos:
+
+Database
+Security
+...
+
+ - Plugins de domínio:
+Plugin: Clientes
+Plugin: Produtos
+Plugin: Vendas
+
+ - Plugins de terceiros:
+ - 
+Plugin: Relatórios
 
 Nesse cenário, Clientes, Produtos, Vendas e Relatórios são plugins de domínio da aplicação.
 
