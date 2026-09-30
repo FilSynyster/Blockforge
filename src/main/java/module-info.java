@@ -20,4 +20,7 @@ module agenda {
     exports agenda.app;
     exports agenda.database.core;
     exports agenda.database.ormlite;
+    exports agenda.database.sql;
+    exports  agenda.database.ormlite.configuration;
+    exports agenda.database.exceptions;
 }

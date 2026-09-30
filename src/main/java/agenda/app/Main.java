@@ -33,35 +33,12 @@ public class Main /*extends Application*/ {
 
         // launch(args);
 
-        // =========================================================
-        // CRIA OS CONTEXTOS
-        // =========================================================
-
-        PersistenceContextFactory factory =
-                new PersistenceContextFactory();
-
+        PersistenceContextFactory factory = new PersistenceContextFactory();
         factory.createAllOrmlitePersistenceContexts();
 
+        OrmlitePersistenceContext context = factory.getPersistenceContextRegistry().get("agenda-persistence", OrmlitePersistenceContext.class);
 
-        // =========================================================
-        // OBTÉM O CONTEXTO
-        // =========================================================
-
-        OrmlitePersistenceContext context =
-                factory.getPersistenceContextRegistry().get(
-                        "agenda-persistence",
-                        OrmlitePersistenceContext.class
-                );
-
-
-        // =========================================================
-        // OBTÉM O REPOSITÓRIO
-        // =========================================================
-
-        ContactRepository rep =
-                context.getRepositoryRegistry()
-                        .getRepository(Contact.class);
-
+        ContactRepository rep = context.getRepositoryRegistry().getRepository(Contact.class);
 
         // =========================================================
         // 1. CONTACT
@@ -101,7 +78,6 @@ public class Main /*extends Application*/ {
         System.out.println("findAllNative:");
         System.out.println(contacts);
 
-
         // =========================================================
         // 4. LIST COM WHERE
         // =========================================================
@@ -122,8 +98,7 @@ public class Main /*extends Application*/ {
         System.out.println();
         System.out.println("========== List - idade parametrizada ==========");
 
-        List<Contact> contactsOlderThan =
-                rep.findByAgeGreaterThan(10);
+        List<Contact> contactsOlderThan = rep.findByAgeGreaterThan(10);
 
         System.out.println("findByAgeGreaterThan:");
         System.out.println(contactsOlderThan);
@@ -136,8 +111,7 @@ public class Main /*extends Application*/ {
         System.out.println();
         System.out.println("========== Set ==========");
 
-        Set<Contact> contactSet =
-                rep.findAllAsSet();
+        Set<Contact> contactSet = rep.findAllAsSet();
 
         System.out.println("findAllAsSet:");
         System.out.println(contactSet);
@@ -150,8 +124,7 @@ public class Main /*extends Application*/ {
         System.out.println();
         System.out.println("========== Set - idade ==========");
 
-        Set<Contact> adultSet =
-                rep.findAdultsAsSet();
+        Set<Contact> adultSet = rep.findAdultsAsSet();
 
         System.out.println("findAdultsAsSet:");
         System.out.println(adultSet);
@@ -163,8 +136,7 @@ public class Main /*extends Application*/ {
         System.out.println();
         System.out.println("========== Optional - nome ==========");
 
-        Optional<Contact> optionalByName =
-                rep.findOptionalByName("João");
+        Optional<Contact> optionalByName = rep.findOptionalByName("João");
 
         System.out.println("findOptionalByName:");
         System.out.println(optionalByName);
@@ -177,8 +149,7 @@ public class Main /*extends Application*/ {
         System.out.println();
         System.out.println("========== Optional - ID ==========");
 
-        Optional<Contact> optionalById =
-                rep.findOptionalById(1L);
+        Optional<Contact> optionalById = rep.findOptionalById(1L);
 
         System.out.println("findOptionalById:");
         System.out.println(optionalById);
@@ -191,13 +162,10 @@ public class Main /*extends Application*/ {
         System.out.println();
         System.out.println("========== Stream ==========");
 
-        try (Stream<Contact> stream =
-                     rep.findAllAsStream()) {
+        try (Stream<Contact> stream = rep.findAllAsStream()) {
 
             stream.forEach(contactItem ->
-                    System.out.println(
-                            "Stream: " + contactItem
-                    )
+                    System.out.println("Stream: " + contactItem)
             );
         }
 
@@ -209,13 +177,10 @@ public class Main /*extends Application*/ {
         System.out.println();
         System.out.println("========== Stream - idade ==========");
 
-        try (Stream<Contact> stream =
-                     rep.findByAgeAsStream()) {
+        try (Stream<Contact> stream = rep.findByAgeAsStream()) {
 
             stream.forEach(contactItem ->
-                    System.out.println(
-                            "Stream idade: " + contactItem
-                    )
+                    System.out.println("Stream idade: " + contactItem)
             );
         }
 

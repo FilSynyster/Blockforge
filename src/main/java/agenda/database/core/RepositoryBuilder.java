@@ -1,5 +1,7 @@
 package agenda.database.core;
 
+import agenda.database.sql.SQLDocument;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
@@ -14,7 +16,8 @@ public class RepositoryBuilder {
 
     public static DataRepository<?,?> createRepository(
             Class<?> repositoryInterfaceClass,
-            DataRepository<?,?> dataRepository
+            DataRepository<?,?> dataRepository,
+            SQLDocument sqlDocument
     ) {
         //Cria a implementação dinâmica de DataRepository
         ClassLoader classLoader = repositoryInterfaceClass.getClassLoader();
@@ -23,7 +26,7 @@ public class RepositoryBuilder {
         return (DataRepository<?,?>) Proxy.newProxyInstance(
                 classLoader,
                 interfaces,
-                new DataRepositoryInvocationHandler(dataRepository)
+                new DataRepositoryInvocationHandler(dataRepository, sqlDocument)
         );
     }
 
